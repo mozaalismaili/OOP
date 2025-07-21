@@ -1,18 +1,21 @@
 import java.util.*;
 
+// Main class for the Student Management System
 public class Main {
-    static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Student> students = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in); // Scanner for user input
+    static ArrayList<Student> students = new ArrayList<>(); // List to store student objects
 
     public static void main(String[] args) {
         boolean exit = false;
 
+        // Main loop to keep showing the menu until user exits
         while (!exit) {
-            displayMenu();
+            displayMenu(); // Show available options
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); // Consume leftover newline
 
+            // Perform the operation based on user choice
             switch (choice) {
                 case 1 -> addStudent();
                 case 2 -> viewStudents();
@@ -36,8 +39,9 @@ public class Main {
         }
     }
 
+    // Function to show the menu
     static void displayMenu() {
-        System.out.println("\nStudent Management System ");
+        System.out.println("\n===== Student Management System =====");
         System.out.println("1. Add Student");
         System.out.println("2. View All Students");
         System.out.println("3. Update Student Grade");
@@ -54,6 +58,7 @@ public class Main {
         System.out.println("14. Exit");
     }
 
+    // Add new student
     static void addStudent() {
         System.out.print("Enter name: ");
         String name = scanner.nextLine();
@@ -65,6 +70,7 @@ public class Main {
         System.out.println("Student added successfully.");
     }
 
+    // View all students
     static void viewStudents() {
         if (students.isEmpty()) {
             System.out.println("No students found.");
@@ -76,6 +82,7 @@ public class Main {
         }
     }
 
+    // Update a student's grade by ID
     static void updateStudentGrade() {
         System.out.print("Enter student ID to update: ");
         int id = scanner.nextInt();
@@ -88,9 +95,10 @@ public class Main {
                 return;
             }
         }
-        System.out.println(" Student not found.");
+        System.out.println("Student not found.");
     }
 
+    // Delete a student by ID
     static void deleteStudent() {
         System.out.print("Enter student ID to delete: ");
         int id = scanner.nextInt();
@@ -106,6 +114,7 @@ public class Main {
         System.out.println("Student not found.");
     }
 
+    // Search for student by ID
     static void searchById() {
         System.out.print("Enter student ID: ");
         int id = scanner.nextInt();
@@ -118,6 +127,7 @@ public class Main {
         System.out.println("Student not found.");
     }
 
+    // Search for students by name (case insensitive)
     static void searchByName() {
         System.out.print("Enter student name: ");
         String name = scanner.nextLine();
@@ -133,6 +143,7 @@ public class Main {
         }
     }
 
+    // Calculate and display average grade
     static void calculateAverageGrade() {
         if (students.isEmpty()) {
             System.out.println("No students available.");
@@ -146,6 +157,7 @@ public class Main {
         System.out.println("Average Grade: " + average);
     }
 
+    // Show student with the highest grade
     static void showHighestGrade() {
         if (students.isEmpty()) {
             System.out.println("No students available.");
@@ -156,32 +168,37 @@ public class Main {
         topStudent.displayInfo();
     }
 
+    // Show student with the lowest grade
     static void showLowestGrade() {
         if (students.isEmpty()) {
             System.out.println("No students available.");
             return;
         }
         Student lowStudent = Collections.min(students, Comparator.comparingDouble(Student::getGrade));
-        System.out.println(" Lowest Grade:");
+        System.out.println("Lowest Grade:");
         lowStudent.displayInfo();
     }
 
+    // Count the total number of students
     static void countTotalStudents() {
-        System.out.println(" Total Students: " + students.size());
+        System.out.println("Total Students: " + students.size());
     }
 
+    // Sort students by grade (descending)
     static void sortByGrade() {
         students.sort(Comparator.comparingDouble(Student::getGrade).reversed());
-        System.out.println("Students sorted by grade (descending).");
+        System.out.println("Students sorted by grade (high to low):");
         viewStudents();
     }
 
+    // Sort students by name (A to Z)
     static void sortByName() {
         students.sort(Comparator.comparing(Student::getName));
-        System.out.println("Students sorted by name (A-Z).");
+        System.out.println("Students sorted by name (A-Z):");
         viewStudents();
     }
 
+    // Clear all student records
     static void clearAllStudents() {
         students.clear();
         System.out.println("All student records cleared.");
