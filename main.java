@@ -30,7 +30,10 @@ public class Main {
                 case 11 -> sortByGrade();
                 case 12 -> sortByName();
                 case 13 -> clearAllStudents();
-                case 14 -> {
+                case 14 -> showSecondHighestGrade();
+                case 15 -> countGradesBetween80And90();
+                case 16 -> exportToFile();
+                case 17 -> {
                     System.out.println("Exiting... ");
                     exit = true;
                 }
@@ -55,7 +58,10 @@ public class Main {
         System.out.println("11. Sort Students by Grade");
         System.out.println("12. Sort Students by Name");
         System.out.println("13. Clear All Students");
-        System.out.println("14. Exit");
+        System.out.println("14. Show Second Highest Grade");
+        System.out.println("15. Count Grades Between 80 and 90");
+        System.out.println("16. Export Student Data to File");
+        System.out.println("17. Exit");
     }
 
     // Add new student
@@ -203,4 +209,53 @@ public class Main {
         students.clear();
         System.out.println("All student records cleared.");
     }
+
+    // Show second highest grade
+    static void showSecondHighestGrade() {
+        if (students.size() < 2) {
+            System.out.println("Not enough students.");
+            return;
+        }
+        Set<Double> uniqueGrades = new TreeSet<>(Comparator.reverseOrder());
+        for (Student s : students) {
+            uniqueGrades.add(s.getGrade());
+        }
+
+        Iterator<Double> it = uniqueGrades.iterator();
+        it.next(); // Skip highest
+        double second = it.next(); // Second highest
+
+        for (Student s : students) {
+            if (s.getGrade() == second) {
+                System.out.println("Second Highest Grade:");
+                s.displayInfo();
+                return;
+            }
+        }
+    }
+
+    // Count students with grade between 80 and 90
+    static void countGradesBetween80And90() {
+        long count = students.stream()
+                .filter(s -> s.getGrade() >= 80 && s.getGrade() <= 90)
+                .count();
+        System.out.println("Students with grades between 80 and 90: " + count);
+    }
+
+    // Export student data to file
+    static void exportToFile() {
+        try (PrintWriter writer = new PrintWriter("students.txt")) {
+            for (Student s : students) {
+                writer.println("Name: " + s.getName());
+                writer.println("ID: " + s.getId());
+                writer.println("Grade: " + s.getGrade());
+                writer.println("------------------");
+            }
+            System.out.println("Data exported to students.txt");
+        } catch (IOException e) {
+            System.out.println("Error writing to file.");
+        }
+    }
+}
+
 }
